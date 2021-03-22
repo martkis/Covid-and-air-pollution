@@ -1,9 +1,9 @@
 library(data.table) 
 
-setwd("home") 
+setwd("Pulpit/R/dane_covid/") 
 
 #dt <- read.csv2("akutalne_dane_powiaty.csv", encoding = "cp-1250")
-dir_path <- "R/dane_covid/danehistorycznepowiaty/"
+dir_path <- "danehistorycznepowiaty/"
 files <- list.files(path=dir_path, pattern = "pow")
 
 dane <- rbindlist(lapply(files, function(file){
