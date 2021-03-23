@@ -3,7 +3,9 @@ import json
 from statistics import mean
 import pandas as pd
 
-stations = requests.get("http://api.gios.gov.pl/pjp-api/rest/station/findAll")
+requests_ = requests.Session()
+
+stations = requests_.get("http://api.gios.gov.pl/pjp-api/rest/station/findAll")
 
 stations = json.loads(stations.content)
 
@@ -11,7 +13,7 @@ stations = json.loads(stations.content)
 def get_sensors(sensors):
     for sensor in sensors:
         sensorid = sensor.get("id")
-        values = requests.get(
+        values = requests_.get(
             f"http://api.gios.gov.pl/pjp-api/rest/data/getData/{sensorid}"
         )
         values = json.loads(values.content)
@@ -30,7 +32,7 @@ def get_sensors(sensors):
 def main():
     for station in stations:
         stationid = station.get("id")
-        sensors = requests.get(
+        sensors = requests_.get(
             f"http://api.gios.gov.pl/pjp-api/rest/station/sensors/{stationid}"
         )
         sensors = json.loads(sensors.content)
