@@ -1,9 +1,9 @@
 library(data.table) 
+library(dplyr)
+library(stringi)
+setwd("/home/kisiel/Covid-and-air-pollution/") 
 
-setwd("Pulpit/R/dane_covid/") 
-
-#dt <- read.csv2("akutalne_dane_powiaty.csv", encoding = "cp-1250")
-dir_path <- "danehistorycznepowiaty/"
+dir_path <- "dane/danehistorycznepowiaty/"
 files <- list.files(path=dir_path, pattern = "pow")
 
 dane <- rbindlist(lapply(files, function(file){
@@ -11,4 +11,8 @@ dane <- rbindlist(lapply(files, function(file){
   
   }),use.names = TRUE, fill = TRUE)
 
+dane <- dane %>% 
+  filter(!(is.na(stan_rekordu_na))) %>%
+  mutate(ow = substr(teryt,2,3))
 
+dict <- read.csv2("dane/slownik_powiaty.csv", sep = ",", encoding = "windows-1250")
