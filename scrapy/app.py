@@ -1,6 +1,6 @@
 import requests
 import json
-import multitasking
+
 from statistics import mean
 import pandas as pd
 
@@ -12,7 +12,6 @@ stations = json.loads(stations.content)
 is_first = True
 
 
-@multitasking.task
 def save(station, sensor, values):
     global is_first
     book = {}
@@ -22,7 +21,20 @@ def save(station, sensor, values):
     book["province_name"] = station.get("city").get("commune").get("provinceName")
     book["param_name"] = sensor.get("param").get("paramName")
     book["param_formula"] = sensor.get("param").get("paramFormula")
-    book["values"] = values.get("values")
+    try:
+        book["date1"] = values.get("values")[0].get("date")
+        book["value1"] = values.get("values")[0].get("value")
+        book["date2"] = values.get("values")[1].get("date")
+        book["value2"] = values.get("values")[1].get("value")
+        book["date3"] = values.get("values")[2].get("date")
+        book["value3"] = values.get("values")[2].get("value")
+    except:
+        book["date1"] = values.get("values")
+        book["value1"] = values.get("values")
+        book["date2"] = values.get("values")
+        book["value2"] = values.get("values")
+        book["date3"] = values.get("values")
+        book["value3"] = values.get("values")
 
     columns = None
     if is_first:
