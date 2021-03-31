@@ -2,6 +2,7 @@ rm(list = ls())
 library(data.table) 
 library(dplyr)
 library(stringi)
+library(xlsx)
 
 
 dir_path <- "path"
@@ -31,5 +32,6 @@ dane <- dane %>%
 
 dane <- dane %>% 
   mutate(teryt_num = substr(teryt,2,3))
-
-
+#data from GUS
+demo <- read.xlsx("dane/powierzchnia_i_ludnosc_w_przekroju_terytorialnym_w_2020_roku_tablice.xlsx", sheetIndex = 3, encoding = "UTF-8", colClasses = "character")
+write.csv2(demo, "demografia.csv", fileEncoding = "UTF-8")
